@@ -9,12 +9,12 @@ public class Originator<T>
         State = state;
     }
 
-    public Memento<T> SaveStateToMemento()
+    public Memento<T> SaveState()
     {
         return new Memento<T>(State);
     }
 
-    public void GetStateFromMemento(Memento<T> memento)
+    public void GetState(Memento<T> memento)
     {
         State = memento.State;
     }

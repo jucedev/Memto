@@ -1,18 +1,36 @@
 ﻿var originator = new Memto.Originator<string>();
-var caretaker = new Memto.Caretaker<string>();
+var caretaker = new Memto.Caretaker<string>(originator);
 
-originator.SetState("First");
-caretaker.SaveState(originator.SaveStateToMemento());
+originator.SetState("First state");
 
-originator.SetState("Second");
-caretaker.SaveState(originator.SaveStateToMemento());
+caretaker.SaveState(originator.SaveState());
+originator.SetState("Second state");
 
-originator.SetState("Third");
+caretaker.SaveState(originator.SaveState());
+originator.SetState("Third state");
 
 Console.WriteLine("Current state: " + originator.State);
 
-while (!caretaker.IsEmpty)
+if (caretaker.CanUndo)
 {
-    originator.GetStateFromMemento(caretaker.RestoreState());
+    originator.GetState(caretaker.Undo());
+    Console.WriteLine("Restored state: " + originator.State);
+}
+
+if (caretaker.CanUndo)
+{
+    originator.GetState(caretaker.Undo());
+    Console.WriteLine("Restored state: " + originator.State);
+}
+
+if (caretaker.CanRedo)
+{
+    originator.GetState(caretaker.Redo());
+    Console.WriteLine("Restored state: " + originator.State);
+}
+
+if (caretaker.CanRedo)
+{
+    originator.GetState(caretaker.Redo());
     Console.WriteLine("Restored state: " + originator.State);
 }
